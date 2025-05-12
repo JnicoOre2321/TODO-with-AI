@@ -1,6 +1,9 @@
+"use client";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,10 +15,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Todo with AI",
-  description: "A web app to manage your tasks with AI",
-};
+// export const metadata: Metadata = {
+//   title: "Todo with AI",
+//   description: "A web app to manage your tasks with AI",
+// };
 
 export default function RootLayout({
   children,
@@ -24,11 +27,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <Provider store={store}>
         {children}
-      </body>
-    </html>
+      </Provider>
+    </body>
+  </html>
   );
 }

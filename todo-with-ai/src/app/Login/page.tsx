@@ -3,6 +3,8 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import TituloDinamico from "@/components/fuenteDinamica";
 import { login } from "@/actions/login";
+import { useDispatch, useSelector } from "react-redux";
+import { setuser } from "@/app/redux/slices/userSlice";
 
 export default function Login() {
   const [email, setEmail] = React.useState("");
@@ -11,6 +13,7 @@ export default function Login() {
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
+  const dispatch = useDispatch();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -20,8 +23,13 @@ export default function Login() {
     setLoading(false);
     if (data == 200) {
       setSuccess(true);
+      const sendAction = {
+        type: "SET_USER",
+        payload: data,
+      }
+      dispatch(setuser(sendAction));
       setTimeout(() => {
-        router.push("/dashboard");
+        router.push("/Home");
       }, 1000);
     } else {
       setError(true);
